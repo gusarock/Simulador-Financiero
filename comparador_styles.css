@@ -226,19 +226,23 @@ button[type="submit"]:hover {
 .tooltiptext {
   visibility: hidden;
   width: 220px;
-  background-color: #009ddc;
+  background-color: rgba(0, 123, 255, 0.9); /* Azul con transparencia */
   color: #fff;
   text-align: left;
-  border-radius: 6px;
-  padding: 0.6rem;
+  border-radius: 8px;
+  padding: 10px;
   position: absolute;
   z-index: 1;
-  top: -5px;
-  left: 105%;
+  top: 100%; /* Aparece debajo del ícono */
+  left: 50%;
+  transform: translateX(-50%);
   opacity: 0;
   transition: opacity 0.3s;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  font-size: 14px;
 }
 
+/* Mostrar tooltip al pasar el mouse */
 .tooltip:hover .tooltiptext {
   visibility: visible;
   opacity: 1;
