@@ -218,54 +218,39 @@ button[type="submit"]:hover {
 
   .sidebar {
     width: 100%;
-    padding: 1.5rem;
+    min-height: 100vh; /* Ocupa toda la altura de la pantalla */
+    padding: 2rem 1.5rem;
+    justify-content: center;
     align-items: center;
+    background-color: #003399;
   }
 
   .sidebar h1 {
-    font-size: 1.5rem;
+    font-size: 1.6rem;
+    text-align: center;
+  }
+
+  .formulario {
+    width: 100%;
+    max-width: 480px;
   }
 
   .formulario input,
   .formulario select {
-    font-size: 0.95rem;
-    padding: 0.8rem 1rem;
+    font-size: 1rem;
+    padding: 1rem;
   }
 
   button[type="submit"] {
-    font-size: 0.95rem;
-    padding: 0.8rem;
+    font-size: 1rem;
+    padding: 1rem;
   }
 
   .main {
-    width: 100%;
-    padding: 1.5rem;
-  }
-
-  .ilustracion-superior img {
-    max-width: 100%;
-  }
-
-  .card-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .card {
-    min-height: auto;
-    padding: 1.2rem;
-  }
-
-  .card h3 {
-    font-size: 1rem;
-  }
-
-  .btn-detalle {
-    font-size: 0.9rem;
-    padding: 0.6rem 1.2rem;
+    display: none; /* Oculta completamente el panel derecho en móviles */
   }
 
   .decorador {
-    display: none; /* Oculta decoraciones en móvil para evitar desorden visual */
+    display: none; /* Oculta decoraciones */
   }
 }
-
