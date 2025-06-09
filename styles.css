@@ -194,6 +194,19 @@ th, td {
 tbody tr:nth-child(even) {
   background-color: #f0f4ff;
 }
+.contenedor-tabla {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.contenedor-tabla table {
+  min-width: 600px; /* o más si la tabla es más grande */
+  border-collapse: collapse;
+}
+#tablaAmortizacion {
+  overflow-x: auto;
+  width: 100%;
+}
 
 /* =============================
    BOTONES AMORTIZACIÓN
