@@ -210,20 +210,62 @@ button[type="submit"]:hover {
 }
 
 /* Responsivo */
-@media (max-width: 992px) {
+@media (max-width: 768px) {
+  body {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .sidebar {
+    width: 100%;
+    padding: 1.5rem;
+    align-items: center;
+  }
+
+  .sidebar h1 {
+    font-size: 1.5rem;
+  }
+
+  .formulario input,
+  .formulario select {
+    font-size: 0.95rem;
+    padding: 0.8rem 1rem;
+  }
+
+  button[type="submit"] {
+    font-size: 0.95rem;
+    padding: 0.8rem;
+  }
+
+  .main {
+    width: 100%;
+    padding: 1.5rem;
+  }
+
+  .ilustracion-superior img {
+    max-width: 100%;
+  }
+
+  .card-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .card {
+    min-height: auto;
+    padding: 1.2rem;
+  }
+
+  .card h3 {
+    font-size: 1rem;
+  }
+
+  .btn-detalle {
+    font-size: 0.9rem;
+    padding: 0.6rem 1.2rem;
+  }
+
   .decorador {
-    width: 18%;            /* Reduce tamaño */
-    max-width: 80px;       /* Evita superposición */
-  }
-
-  .decorador-top-right,
-  .decorador-bottom-right {
-    left: auto;
-    right: -4%;            /* Coloca más hacia el borde */
-  }
-
-  .decorador-top-left,
-  .decorador-bottom-left {
-    left: -4%;
+    display: none; /* Oculta decoraciones en móvil para evitar desorden visual */
   }
 }
+
