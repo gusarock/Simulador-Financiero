@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simulador de Crédito Educativo ICETEX</title>
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Work+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="main-container">
+    <!-- COLUMNA IZQUIERDA -->
+    <div class="formulario-columna">
+      <h1 class="titulo-simulador">Simulador de Crédito Educativo</h1>
+
+      <label for="valor_periodo">¿Cuál es el valor de tu periodo académico? *</label>
+      <input type="text" id="valor_periodo" oninput="formatearCOP(this)" placeholder="Ingresa el valor del periodo académico actual" />
+      <small>*Recuerda que es el valor que giraremos a la universidad.</small>
+
+      <label for="num_periodos">¿Cuántos periodos académicos necesitas financiar? *</label>
+      <select id="num_periodos">
+        <option value="">Selecciona la cantidad de periodos</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+        <option value="8">8</option>
+        <option value="9">9</option>
+        <option value="10">10</option>
+        <option value="11">11</option>
+        <option value="12">12</option>
+      </select>
+
+      <label for="periodicidad">Periodicidad del programa académico</label>
+      <select id="periodicidad">
+        <option value="mensual">Mensual</option>
+        <option value="bimestral">Bimestral</option>
+        <option value="trimestral">Trimestral</option>
+        <option value="cuatrimestral">Cuatrimestral</option>
+        <option value="semestral" selected>Semestral</option>
+        <option value="anual">Anual</option>
+      </select>
+
+      <label for="linea_credito">Línea de crédito</label>
+      <select id="linea_credito" onchange="verificarBotonPostEstudios()">
+        <option value="">Selecciona una línea</option>
+        <option value="Plan flexible">Plan flexible</option>
+        <option value="Plan equilibrio">Plan equilibrio</option>
+        <option value="Plan ágil">Plan ágil</option>
+        <option value="Plan posgrado para medicina en Colombia">Plan posgrado para medicina en Colombia</option>
+        <option value="Plan para Educación para el Trabajo">Plan para Educación para el Trabajo</option>
+        <option value="Plan posgrado en el país">Posgrado país</option>
+        <option value="Plan posgrado para fuera de Colombia">Posgrado Exterior</option>
+        <option value="Plan segundo idioma">Plan segundo idioma</option>
+        <option value="Plan para Bienestar fuera de Colombia">Plan para Bienestar fuera de Colombia</option>
+      </select>
+
+      <button class="boton-volver" onclick="window.location.href='comparador_creditos.html'">← Volver al comparador</button>
+    </div>
+<!-- COLUMNA DERECHA -->
+<div class="resultado-columna">
+  <div class="visual-box">
+    <img src="img/ilustracion_2.png" alt="Ilustración persona" class="ilustracion">
+    
+    <div class="resumen-box">
+      <h3>RESUMEN</h3>
+      <p><strong>Valor total estimado del programa:</strong> <span id="resumen_monto">--</span></p>
+      <p><strong>Tasa mes vencido:</strong> <span id="resumen_tasa">--</span></p>
+      <p><strong>Tasa nominal anual mes vencido:</strong> <span id="resumen_tasa_anual">--</span></p>
+    </div>
+  </div>
+  <div id="subtitulo-linea" class="subtitulo-linea"></div>
+
+  
+  <div id="tablaAmortizacion"></div>
+
+  <div class="botones-amortizacion">
+    <button onclick="simularEtapaEstudios()">Ver tabla en estudios</button>
+    <button onclick="simularPostEstudios()" id="botonPostEstudios">Ver tabla cuando termines de estudiar</button>
+  </div>
+</div>
+</div>
+
+<script src="simulador.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const datos = JSON.parse(localStorage.getItem('datosSimulacion'));
+
+    if (datos) {
+      document.getElementById("valor_periodo").value = parseInt(datos.valorPeriodo).toLocaleString("es-CO");
+      document.getElementById("num_periodos").value = datos.numPeriodos;
+      document.getElementById("periodicidad").value = datos.periodicidad;
+      document.getElementById("linea_credito").value = datos.lineaCredito;
+
+      setTimeout(() => {
+        simularEtapaEstudios();
+      }, 100);
+
+      // Limpia el localStorage si ya no se necesita
+      // localStorage.removeItem('datosSimulacion');
+    }
+  });
+</script>
+</body>
+</html>
