@@ -16,9 +16,10 @@ body {
   font-family: 'Montserrat', sans-serif;
   background-color: #f4f6fc;
   color: #333;
-  height: 100vh;
-  overflow: hidden;
+  min-height: 100vh;
+  overflow-y: auto;   /* permitimos scroll vertical */
 }
+
 
 .main-container {
   display: flex;
@@ -203,10 +204,7 @@ tbody tr:nth-child(even) {
   min-width: 600px; /* o más si la tabla es más grande */
   border-collapse: collapse;
 }
-#tablaAmortizacion {
-  overflow-x: auto;
-  width: 100%;
-}
+
 
 /* =============================
    BOTONES AMORTIZACIÓN
