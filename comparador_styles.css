@@ -212,9 +212,12 @@ button[type="submit"]:hover {
 /* Responsivo */
 @media (max-width: 768px) {
   html, body {
-    height: 100%;
-    width: 100%;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    width: 100vw;
     overflow: hidden;
+    display: block;
   }
 
   body {
@@ -224,25 +227,35 @@ button[type="submit"]:hover {
   .sidebar {
     width: 100vw;
     height: 100vh;
-    padding: 2rem 1.5rem;
-    justify-content: center;
-    align-items: center;
+    padding: 2rem 1rem;
     display: flex;
     flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    overflow-y: auto;
     background-color: #003399;
-    z-index: 10;
+    z-index: 2;
   }
 
   .formulario {
     width: 100%;
     max-width: 480px;
+    margin-top: 1.5rem;
   }
 
   .main {
-    display: none;
+    display: none !important;
   }
 
-  .decorador {
-    display: none;
+  .decorador,
+  .decorador-top-left,
+  .decorador-top-right,
+  .decorador-bottom-left,
+  .decorador-bottom-right {
+    display: none !important;
+  }
+
+  .ilustracion-superior {
+    display: none !important;
   }
 }
