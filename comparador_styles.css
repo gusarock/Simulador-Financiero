@@ -209,6 +209,42 @@ button[type="submit"]:hover {
   transform: scaleX(-1) scaleY(-1);
 }
 
+.pregunta-tooltip {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-bottom: 0.25rem; /* Menor separación entre pregunta y respuesta */
+}
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  font-size: 1.2rem;
+}
+
+.tooltiptext {
+  visibility: hidden;
+  width: 220px;
+  background-color: #009ddc;
+  color: #fff;
+  text-align: left;
+  border-radius: 6px;
+  padding: 0.6rem;
+  position: absolute;
+  z-index: 1;
+  top: -5px;
+  left: 105%;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+}
+
+
 /* Responsivo */
 @media (max-width: 768px) {
   html, body {

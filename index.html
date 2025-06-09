@@ -12,51 +12,72 @@
     <h1 class="titulo-simulado">COMPARADOR<br>DE CRÉDITOS<br>ICETEX</h1>
 
     <form class="formulario" onsubmit="mostrarComparacion(); return false;">
-      <label for="nivelFormacion">Nivel de formación</label>
-      <select id="nivelFormacion" onchange="filtrarLineasPorNivel()">
-        <option value="">Seleccione una opción</option>
-        <option value="Pregrado">Pregrado</option>
-        <option value="Posgrado país">Posgrado país</option>
-        <option value="Posgrado medicina">Posgrado medicina</option>
-        <option value="ETDH">ETDH</option>
-        <option value="Posgrado exterior">Posgrado exterior</option>
-        <option value="Idiomas país">Idiomas en el país</option>
-        <option value="Sostenimiento">Sostenimiento</option>
-      </select>
+  <div class="pregunta-tooltip">
+    <label for="nivelFormacion">Nivel de formación</label>
+    <span class="tooltip">🛈
+      <span class="tooltiptext">Elige el tipo de programa que te interesa: pregrado, posgrado, idiomas, etc.</span>
+    </span>
+  </div>
+  <select id="nivelFormacion" onchange="filtrarLineasPorNivel()">
+    <option value="">Seleccione una opción</option>
+    <option value="Pregrado">Pregrado</option>
+    <option value="Posgrado país">Posgrado país</option>
+    <option value="Posgrado medicina">Posgrado medicina</option>
+    <option value="ETDH">ETDH</option>
+    <option value="Posgrado exterior">Posgrado exterior</option>
+    <option value="Idiomas país">Idiomas en el país</option>
+    <option value="Sostenimiento">Sostenimiento</option>
+  </select>
 
-      <label for="valorPeriodo">¿Cuál es el valor de tu periodo académico?</label>
-      <input type="text" id="valorPeriodo" placeholder="Ingresa el valor de tu periodo académico" oninput="formatearCOPInput(this)" />
+  <div class="pregunta-tooltip">
+    <label for="valorPeriodo">¿Cuál es el valor de tu periodo académico?</label>
+    <span class="tooltip">🛈
+      <span class="tooltiptext">Indica cuánto cuesta el semestre, año o periodo del programa que quieres estudiar..</span>
+    </span>
+  </div>
+  <input type="text" id="valorPeriodo" placeholder="Ingresa el valor de tu periodo académico" oninput="formatearCOPInput(this)" />
 
-      <label for="numPeriodos">¿Cuántos periodos académicos necesitas financiar?</label>
-      <select id="numPeriodos">
-        <option value="">Selecciona el número de periodos</option>
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
-        <option value="4">4</option>
-        <option value="5">5</option>
-        <option value="6">6</option>
-        <option value="7">7</option>
-        <option value="8">8</option>
-        <option value="9">9</option>
-        <option value="10">10</option>
-        <option value="11">11</option>
-        <option value="12">12</option>
-      </select>
+  <div class="pregunta-tooltip">
+    <label for="numPeriodos">¿Cuántos periodos académicos necesitas financiar?</label>
+    <span class="tooltip">🛈
+      <span class="tooltiptext">Selecciona el número de periodos que necesitas financiar. Un periodo es igual a un semestre o ciclo académico.</span>
+    </span>
+  </div>
+  <select id="numPeriodos">
+    <option value="">Selecciona el número de periodos</option>
+    <option value="1">1</option>
+    <option value="2">2</option>
+    <option value="3">3</option>
+    <option value="4">4</option>
+    <option value="5">5</option>
+    <option value="6">6</option>
+    <option value="7">7</option>
+    <option value="8">8</option>
+    <option value="9">9</option>
+    <option value="10">10</option>
+    <option value="11">11</option>
+    <option value="12">12</option>
+  </select>
 
-      <label for="periodicidad">¿Cuál es la periodicidad de tu programa académico?</label>
-      <select id="periodicidad">
-        <option value="">Selecciona la periodicidad</option>
-        <option value="mensual">Mensual</option>
-        <option value="bimestral">Bimestral</option>
-        <option value="trimestral">Trimestral</option>
-        <option value="cuatrimestral">Cuatrimestral</option>
-        <option value="semestral">Semestral</option>
-        <option value="anual">Anual</option>
-      </select>
+  <div class="pregunta-tooltip">
+    <label for="periodicidad">¿Cuál es la periodicidad de tu programa académico?</label>
+    <span class="tooltip">🛈
+      <span class="tooltiptext">Dinos si el programa es por semestre, trimestre, año o algún otro tipo de ciclo.</span>
+    </span>
+  </div>
+  <select id="periodicidad">
+    <option value="">Selecciona la periodicidad</option>
+    <option value="mensual">Mensual</option>
+    <option value="bimestral">Bimestral</option>
+    <option value="trimestral">Trimestral</option>
+    <option value="cuatrimestral">Cuatrimestral</option>
+    <option value="semestral">Semestral</option>
+    <option value="anual">Anual</option>
+  </select>
 
-      <button type="submit">Ver comparador</button>
-    </form>
+  <button type="submit">Ver comparador</button>
+</form>
+
 
     <!-- Decoraciones -->
     
@@ -185,18 +206,29 @@ function mostrarComparacion() {
     const totalCuotas = cuotasEstudios + cuotasAmortizacion;
 
     const card = document.createElement("div");
-    card.className = "card";
-    card.innerHTML = `
-      <h3>${linea}</h3>
-      <p><strong>Cuota mensual en estudios:</strong> ${cuota.toLocaleString('es-CO', { style: 'currency', currency: 'COP', minimumFractionDigits: 0 })}</p>
-      <p><strong>AFPC:</strong> ${afpc.toLocaleString('es-CO', { style: 'currency', currency: 'COP', minimumFractionDigits: 0 })}</p>
-      <p><strong>Tasa de interés:</strong> ${(tasaNM * 100).toFixed(2)}% NM</p>
-      <p><strong>Cuotas en estudios:</strong> ${cuotasEstudios}</p>
-      <p><strong>Cuotas después de estudiar:</strong> ${cuotasAmortizacion}</p>
-      ${mensajeGracia}
-      <button class="btn-detalle" onclick="verPlanDePagos('${linea}', ${valor}, ${periodos}, '${periodicidad}')">Ver plan de pagos </button>
-    `;
-    contenedor.appendChild(card);
+card.className = "card";
+card.innerHTML = `
+  <h3>${linea}</h3>
+  <p title="Valor aproximado que pagarás cada mes durante tus estudios.">
+    <strong>Cuota mensual en estudios:</strong> ${cuota.toLocaleString('es-CO', { style: 'currency', currency: 'COP', minimumFractionDigits: 0 })}
+  </p>
+  <p title="(Aporte al Fondo Pasivo Contingente) Es un aporte obligatorio que te ayuda a cubrir el crédito si en el futuro tienes dificultades para pagarlo.">
+    <strong>AFPC:</strong> ${afpc.toLocaleString('es-CO', { style: 'currency', currency: 'COP', minimumFractionDigits: 0 })}
+  </p>
+  <p title="Tasa de interés nominal mensual aplicada a tu financiación.">
+    <strong>Tasa de interés:</strong> ${(tasaNM * 100).toFixed(2)}% NM
+  </p>
+  <p title="Número de cuotas mensuales que pagarás durante el periodo de estudios.">
+    <strong>Cuotas en estudios:</strong> ${cuotasEstudios}
+  </p>
+  <p title="Número de cuotas mensuales que pagarás después de terminar tus estudios.">
+    <strong>Cuotas después de estudiar:</strong> ${cuotasAmortizacion}
+  </p>
+  ${mensajeGracia}
+  <button class="btn-detalle" onclick="verPlanDePagos('${linea}', ${valor}, ${periodos}, '${periodicidad}')" title="Haz clic para ver el detalle del plan de pagos">Ver plan de pagos</button>
+`;
+contenedor.appendChild(card);
+
   });
 }
 
