@@ -12,7 +12,7 @@ body {
 
 /* Panel izquierdo */
 .sidebar {
-  width: 33.33%;
+  width: 37.33%;
   background-color: #003399;
   color: white;
   padding: 2rem;
@@ -212,25 +212,25 @@ button[type="submit"]:hover {
 .pregunta-tooltip {
   display: flex;
   align-items: center;
-  gap: 0.4rem;
-  margin-bottom: 0.25rem; /* Menor separación entre pregunta y respuesta */
+  gap: 0.1rem;           /* Menor espacio entre texto e ícono */
+  margin-bottom: 0rem;   /* Sin separación entre pregunta y campo */
 }
 
 .tooltip {
   position: relative;
   display: inline-block;
   cursor: pointer;
-  font-size: 1.2rem;
+  font-size: 1.1rem;     /* Ligero ajuste para hacerlo más proporcionado */
 }
 
 .tooltiptext {
   visibility: hidden;
-  width: 220px;
+  width: 210px;
   background-color: rgba(0, 123, 255, 0.9); /* Azul con transparencia */
   color: #fff;
-  text-align: left;
+  text-align: center;
   border-radius: 8px;
-  padding: 10px;
+  padding: 5px;
   position: absolute;
   z-index: 1;
   top: 100%; /* Aparece debajo del ícono */
@@ -239,7 +239,7 @@ button[type="submit"]:hover {
   opacity: 0;
   transition: opacity 0.3s;
   box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-  font-size: 14px;
+  font-size: 12px;
 }
 
 /* Mostrar tooltip al pasar el mouse */
@@ -247,6 +247,7 @@ button[type="submit"]:hover {
   visibility: visible;
   opacity: 1;
 }
+
 
 
 /* Responsivo */

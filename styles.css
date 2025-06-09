@@ -132,29 +132,30 @@ small,
 }
 
 .ilustracion {
-  max-width: 240px;
+  max-width: 150px;
   height: auto;
-  margin-right: 1.5rem;
+  margin-right: 2rem;
 }
 
 .resumen-box {
   background-color: #f4f6fc;
   border-radius: 20px;
-  padding: 1.5rem;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  padding: 1rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
   text-align: left;
-  width: 50%;
+  width: 40%;
 }
 
 .resumen-box h3 {
-  font-size: 1.2rem;
+  font-size: 0.8rem;
   color: #003399;
   margin-bottom: 1rem;
+  text-align: center;
 }
 
 .resumen-box p {
-  font-size: 0.95rem;
-  margin: 0.5rem 0;
+  font-size: 0.7rem;
+  margin: 0.2rem 0;
 }
 
 /* =============================
@@ -165,7 +166,7 @@ small,
   font-size: 1.1rem;
   color: #003399;
   margin-bottom: 0.75rem;
-  font-weight: 600;
+  font-weight: 400;
 }
 
 #tablaAmortizacion {
@@ -176,7 +177,7 @@ table {
   width: 100%;
   border-collapse: collapse;
   font-size: 0.9rem;
-  min-width: 800px;
+  min-width: 600px;
 }
 
 thead tr {
@@ -199,11 +200,12 @@ tbody tr:nth-child(even) {
    ============================= */
 
 .botones-amortizacion {
-  margin-top: 2rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
-  justify-content: flex-start;
+  justify-content: center;
 }
 
 .botones-amortizacion button {
@@ -211,7 +213,6 @@ tbody tr:nth-child(even) {
   border-radius: 25px;
   background-color: #0052CC;
   color: white;
-  font-weight: bold;
   font-size: 0.95rem;
   border: none;
   cursor: pointer;
@@ -356,3 +357,8 @@ tbody tr:nth-child(even) {
     min-width: 100%;
   }
 }
+
+
+
+
+
