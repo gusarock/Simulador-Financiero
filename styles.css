@@ -50,7 +50,6 @@ body {
   color: white;
 }
 
-
 .titulo-simulador span {
   font-weight: 800;
   display: block;
@@ -128,12 +127,12 @@ small,
   justify-content: flex-start;
   margin-bottom: 2rem;
 }
-.ilustracion {
-  max-width: 240px;     /* un poco más pequeña */
-  height: auto;
-  margin-right: 1.5rem; /* espacio justo entre imagen y resumen */
-}
 
+.ilustracion {
+  max-width: 240px;
+  height: auto;
+  margin-right: 1.5rem;
+}
 
 .resumen-box {
   background-color: #f4f6fc;
@@ -220,6 +219,17 @@ tbody tr:nth-child(even) {
 }
 
 /* =============================
+   SUBTÍTULOS
+   ============================= */
+
+.subtitulo-linea {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #003399;
+  margin: 1rem 0 0.5rem;
+}
+
+/* =============================
    MEDIA QUERIES RESPONSIVE
    ============================= */
 
@@ -249,9 +259,93 @@ tbody tr:nth-child(even) {
     margin-bottom: 1rem;
   }
 }
-.subtitulo-linea {
-  font-size: 1.05rem;
-  font-weight: 600;
-  color: #003399;
-  margin: 1rem 0 0.5rem;
+
+@media (max-width: 768px) {
+  html {
+    font-size: 15px;
+  }
+
+  .formulario-columna {
+    padding: 2rem 1.5rem;
+  }
+
+  .resultado-columna {
+    padding: 2rem 1.5rem;
+  }
+
+  .titulo-simulador {
+    font-size: 1.5rem;
+  }
+
+  input,
+  select {
+    font-size: 0.95rem;
+    padding: 0.75rem 1rem;
+  }
+
+  .resumen-box {
+    padding: 1.2rem;
+  }
+
+  .resumen-box h3 {
+    font-size: 1.05rem;
+  }
+
+  .resumen-box p {
+    font-size: 0.9rem;
+  }
+
+  .botones-amortizacion {
+    justify-content: center;
+  }
+
+  table {
+    font-size: 0.85rem;
+    min-width: 600px;
+  }
+}
+
+@media (max-width: 480px) {
+  html {
+    font-size: 14px;
+  }
+
+  body {
+    overflow: auto;
+  }
+
+  .formulario-columna,
+  .resultado-columna {
+    padding: 1.5rem 1rem;
+  }
+
+  .titulo-simulador {
+    font-size: 1.3rem;
+  }
+
+  .ilustracion {
+    display: none;
+  }
+
+  .resumen-box h3 {
+    font-size: 1rem;
+  }
+
+  .resumen-box p {
+    font-size: 0.85rem;
+  }
+
+  .botones-amortizacion {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .botones-amortizacion button {
+    width: 100%;
+    font-size: 0.9rem;
+  }
+
+  table {
+    min-width: 100%;
+  }
 }

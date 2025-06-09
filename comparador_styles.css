@@ -175,7 +175,6 @@ button[type="submit"]:hover {
 .btn-detalle:hover {
   background-color: #009ddc;
 }
-
 /* Decoraciones de esquina */
 .decorador {
   position: absolute;
@@ -184,67 +183,47 @@ button[type="submit"]:hover {
   height: auto;
   opacity: 1;
   pointer-events: none;
-  z-index: 5; /* Encima del fondo, debajo de las tarjetas */
+  z-index: 1; /* Debajo de tarjetas e ilustración */
 }
 
-/* Posiciones sobresalientes */
 .decorador-top-left {
   top: -2%;
-  left: -2%;
+  left: 0;
 }
 
 .decorador-top-right {
   top: -2%;
-  right: -10%;
+  left: calc(33.33% - 70px); /* Al borde del panel izquierdo */
   transform: scaleX(-1);
 }
 
 .decorador-bottom-left {
   bottom: -8%;
-  left: -3%;
+  left: 0;
   transform: scaleY(-1);
 }
 
 .decorador-bottom-right {
   bottom: -6%;
-  left: -1.5%; /* Mueve el decorador a la izquierda */
+  left: calc(33.33% - 70px); /* Al borde del panel izquierdo */
   transform: scaleX(-1) scaleY(-1);
 }
 
 /* Responsivo */
 @media (max-width: 992px) {
-  body {
-    flex-direction: column;
+  .decorador {
+    width: 18%;            /* Reduce tamaño */
+    max-width: 80px;       /* Evita superposición */
   }
 
-  .sidebar, .main {
-    width: 100%;
+  .decorador-top-right,
+  .decorador-bottom-right {
+    left: auto;
+    right: -4%;            /* Coloca más hacia el borde */
   }
 
-  .decorador,
-  .decorador-superpuesta {
-    width: 25%;
-    max-width: 100px;
+  .decorador-top-left,
+  .decorador-bottom-left {
+    left: -4%;
   }
-}
-
-.decorador-top-right-ajustada {
-  position: absolute;
-  top: -2%;
-  left: calc(33.33% - 40px);
-  width: 140px;
-  height: auto;
-  z-index: 5; /* Encima del fondo, debajo de las tarjetas */
-  pointer-events: none;
-}
-
-.decorador-bottom-right-ajustada {
-  position: absolute;
-  bottom: -2%;
-  left: calc(33.33% - 40px);
-  width: 140px;
-  height: auto;
-  z-index: 5; /* Encima del fondo, debajo de las tarjetas */
-  pointer-events: none;
-  transform: scaleY(-1);
 }
