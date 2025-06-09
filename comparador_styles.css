@@ -211,23 +211,26 @@ button[type="submit"]:hover {
 
 /* Responsivo */
 @media (max-width: 768px) {
+  html, body {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+  }
+
   body {
     flex-direction: column;
-    height: auto;
   }
 
   .sidebar {
-    width: 100%;
-    min-height: 100vh; /* Ocupa toda la altura de la pantalla */
+    width: 100vw;
+    height: 100vh;
     padding: 2rem 1.5rem;
     justify-content: center;
     align-items: center;
+    display: flex;
+    flex-direction: column;
     background-color: #003399;
-  }
-
-  .sidebar h1 {
-    font-size: 1.6rem;
-    text-align: center;
+    z-index: 10;
   }
 
   .formulario {
@@ -235,22 +238,11 @@ button[type="submit"]:hover {
     max-width: 480px;
   }
 
-  .formulario input,
-  .formulario select {
-    font-size: 1rem;
-    padding: 1rem;
-  }
-
-  button[type="submit"] {
-    font-size: 1rem;
-    padding: 1rem;
-  }
-
   .main {
-    display: none; /* Oculta completamente el panel derecho en móviles */
+    display: none;
   }
 
   .decorador {
-    display: none; /* Oculta decoraciones */
+    display: none;
   }
 }
