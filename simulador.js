@@ -34,7 +34,8 @@ const condicionesLineaCredito = {
     "Plan posgrado en el país": 0.20,
     "Plan posgrado para fuera de Colombia": 0.00,
     "Plan segundo idioma": 0.30,
-    "Plan para Bienestar fuera de Colombia": 0.00
+    "Plan para Bienestar fuera de Colombia": 0.00,
+    "Plan Saber Más": 0.30
 };
 
 // Formatea un número como COP
@@ -71,7 +72,8 @@ function calcularResumenLinea(valorPeriodo, numPeriodos, periodicidad, lineaCred
         "Plan posgrado en el país": 0.20,
         "Plan posgrado para fuera de Colombia": 0.00,
         "Plan segundo idioma": 0.30,
-        "Plan para Bienestar fuera de Colombia": 0.00
+        "Plan para Bienestar fuera de Colombia": 0.00,
+        "Plan Saber Más": 0.30
     };
 
     const spread = {
@@ -83,7 +85,8 @@ function calcularResumenLinea(valorPeriodo, numPeriodos, periodicidad, lineaCred
         "Plan posgrado en el país": 0.08,
         "Plan posgrado para fuera de Colombia": 0.08,
         "Plan segundo idioma": 0.08,
-        "Plan para Bienestar fuera de Colombia": 0.08
+        "Plan para Bienestar fuera de Colombia": 0.08,
+        "Plan Saber Más": 0.08
     };
     const ipc = 0.052;
     const spreadValor = spread[lineaCredito] || 0.08; // Diccionario según línea
@@ -122,7 +125,7 @@ function calcularResumenLinea(valorPeriodo, numPeriodos, periodicidad, lineaCred
         cuotasAmortizacion = totalMeses * 2;
     } else if (lineaCredito === "Plan para Educación para el Trabajo") {
         cuotasAmortizacion = Math.round(totalMeses * 1.5);
-    } else if (lineaCredito === "Plan segundo idioma") {
+    } else if (lineaCredito === "Plan segundo idioma", "Plan Saber Más") {
         cuotasAmortizacion = 24;
     } else if (["Plan posgrado para fuera de Colombia", "Capacitación de Idiomas en el exterior", "Plan para Bienestar fuera de Colombia"].includes(lineaCredito)) {
         cuotasAmortizacion = 60;
@@ -164,7 +167,8 @@ function simularEtapaEstudios() {
         "Plan posgrado en el país": "Posgrado País",
         "Plan para Educación para el Trabajo": "Educación para el trabajo y el desarrollo humano",
         "Plan posgrado para fuera de Colombia": "Posgrado Exterior Largo Plazo USD 25.000",
-        "Plan segundo idioma": "Capacitación de Idiomas en el país"
+        "Plan segundo idioma": "Capacitación de Idiomas en el país",
+        "Plan Saber Más": "Diplomados o certificaciones en el país"
     };
 
     const ipc = 0.052;
@@ -177,7 +181,8 @@ function simularEtapaEstudios() {
         "Plan posgrado en el país": 0.08,
         "Plan posgrado para fuera de Colombia": 0.08,
         "Plan segundo idioma": 0.08,
-        "Plan para Bienestar fuera de Colombia": 0.08
+        "Plan para Bienestar fuera de Colombia": 0.08,
+        "Diplomados o certificaciones en el país": 0.08
     }[lineaSeleccionada] || 0.08;
 
     const tasaEA = (1 + ipc) * (1 + spread) - 1;
@@ -316,7 +321,8 @@ function simularPostEstudios() {
         "Plan posgrado en el país": 0.08,
         "Plan posgrado para fuera de Colombia": 0.08,
         "Plan segundo idioma": 0.08,
-        "Plan para Bienestar fuera de Colombia": 0.08
+        "Plan para Bienestar fuera de Colombia": 0.08,
+        "Plan Saber Más": 0.08,
     }[lineaSeleccionada] || 0.08;
 
     const tasaEA = (1 + ipc) * (1 + spread) - 1;
@@ -376,7 +382,8 @@ function simularPostEstudios() {
         "Plan posgrado en el país": totalMesesEstudios * 2,
         "Plan posgrado para fuera de Colombia": 60,
         "Plan segundo idioma": 24,
-        "Plan para Bienestar fuera de Colombia": 60
+        "Plan para Bienestar fuera de Colombia": 60,
+        "Plan Saber Más": 24,
     }[lineaSeleccionada] || 0;
 
     // Si no aplica amortización posterior

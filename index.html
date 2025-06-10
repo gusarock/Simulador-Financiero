@@ -27,6 +27,7 @@
     <option value="Posgrado exterior">Posgrado exterior</option>
     <option value="Idiomas país">Idiomas en el país</option>
     <option value="Sostenimiento">Sostenimiento</option>
+    <option value="Educación continuada">Educación continuada</option>
   </select>
 
   <div class="pregunta-tooltip">
@@ -99,7 +100,8 @@
       "ETDH": ["Plan para Educación para el Trabajo"],
       "Posgrado exterior": ["Plan posgrado para fuera de Colombia"],
       "Idiomas país": ["Plan segundo idioma"],
-      "Sostenimiento": ["Plan para Bienestar fuera de Colombia","Plan saber más"]
+      "Sostenimiento": ["Plan para Bienestar fuera de Colombia"],
+      "Educación continuada":["Plan Saber Más"]
     };
 
     const condicionesLineaCredito = {
@@ -113,6 +115,7 @@
       "Plan segundo idioma": 0,
       "Plan para Bienestar fuera de Colombia": 0,
       "Plan saber más": 0,
+      "Plan Saber Más": 0.3
     };
 
     const spreadPorLinea = {
@@ -125,7 +128,8 @@
       "Plan posgrado para fuera de Colombia": 0.08,
       "Plan segundo idioma": 0.08,
       "Plan para Bienestar fuera de Colombia": 0.08,
-      "Plan de saber más": 0.08
+      "Plan de saber más": 0.08,
+      "Plan Saber Más": 0.08
     };
 
 const mapPeriodicidadMeses = {
@@ -195,7 +199,7 @@ function mostrarComparacion() {
       cuotasAmortizacion = totalMeses * 2;
     } else if (linea === "Plan para Educación para el Trabajo") {
       cuotasAmortizacion = Math.round(totalMeses * 1.5);
-    } else if (linea === "Plan segundo idioma") {
+    } else if (linea === "Plan segundo idioma","Plan Saber Más") {
       cuotasAmortizacion = 24;
     } else if (
       ["Plan posgrado para fuera de Colombia", "Plan para Bienestar fuera de Colombia"].includes(linea)
