@@ -32,7 +32,7 @@ body {
    ============================= */
 
 .formulario-columna {
-  width: 40%;
+  width: 35%;
   background-color: #003399;
   color: white;
   padding: 2.5rem;
@@ -50,6 +50,7 @@ body {
   text-align: center;
   text-transform: uppercase;
   color: white;
+  font-family: 'Montserrat', sans-serif;
 }
 
 .titulo-simulador span {
@@ -70,12 +71,14 @@ select {
   padding: 0.9rem 1.2rem;
   border-radius: 2rem;
   border: none;
-  font-size: 1rem;
+  font-size: 1.2rem;
   margin-bottom: 1.2rem;
   width: 100%;
   font-family: 'Work Sans', sans-serif;
   background-color: white;
   color: #003399;
+  text-align: center;
+  font-family: 'Montserrat', sans-serif;
 }
 
 input::placeholder,
@@ -104,6 +107,7 @@ small,
   margin-top: 1rem;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  font-family: 'Montserrat', sans-serif;
 }
 
 .boton-volver:hover {
@@ -115,7 +119,7 @@ small,
    ============================= */
 
 .resultado-columna {
-  width: 60%;
+  width: 65%;
   padding: 2.5rem;
   background-color: #ffffff;
   display: flex;
@@ -228,6 +232,7 @@ tbody tr:nth-child(even) {
   cursor: pointer;
   transition: background-color 0.3s ease;
   min-width: 140px;
+  font-family: 'Montserrat', sans-serif;
 }
 
 .botones-amortizacion button:hover {
