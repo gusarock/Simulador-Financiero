@@ -307,3 +307,38 @@ button[type="submit"]:hover {
     display: none !important;
   }
 }
+
+.responsive-table-container {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.responsive-table-container table {
+  width: 100%;
+  min-width: 600px; /* Se puede ajustar según el contenido */
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.responsive-table-container th,
+.responsive-table-container td {
+  padding: 8px;
+  text-align: center;
+  border: 1px solid #ccc;
+  white-space: nowrap;
+}
+@media (max-width: 480px) {
+  h4 {
+    font-size: 1rem;
+    margin: 0.5rem 0;
+  }
+
+  .responsive-table-container table {
+    font-size: 0.8rem;
+  }
+
+  #resumen_tasa,
+  #resumen_tasa_anual {
+    font-size: 1rem;
+  }
+}

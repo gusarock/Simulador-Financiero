@@ -197,6 +197,7 @@ function simularEtapaEstudios() {
         </h4>
 
         <h4>Tabla de amortización durante estudios</h4>
+        <div class="responsive-table-container">
         <table>
             <tr>
                 <th>Mes</th>
@@ -207,6 +208,7 @@ function simularEtapaEstudios() {
                 <th>Cuota mensual</th>
                 <th>Saldo capital (en estudios)</th>
             </tr>
+            </div>
     `;
 
     const totalMeses = numPeriodos * mesesPorPeriodo;
