@@ -6,8 +6,9 @@
 
 body {
   display: flex;
-  height: 100vh;
   font-family: 'Montserrat', sans-serif;
+  flex-direction: row;
+  min-height: 100vh;
 }
 
 /* Panel izquierdo */
@@ -256,89 +257,48 @@ button[type="submit"]:hover {
 }
 
 
-
-/* Responsivo */
+/* En pantallas móviles: todo en columna */
 @media (max-width: 768px) {
   html, body {
+    height: auto;
+    width: 100%;
     margin: 0;
     padding: 0;
-    height: 100vh;
-    width: 100vw;
-    overflow: hidden;
     display: block;
   }
 
   body {
+    display: flex;
     flex-direction: column;
+    background-color: #f5f5f5; /* O el fondo que prefieras */
   }
 
   .sidebar {
-    width: 100vw;
-    height: 100vh;
-    padding: 2rem 1rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    overflow-y: auto;
+    width: 100%;
+    padding: 1.5rem 1rem;
     background-color: #003399;
-    z-index: 2;
+    color: white;
+    order: 1;
   }
 
   .formulario {
-    width: 100%;
     max-width: 480px;
-    margin-top: 1.5rem;
+    margin: 0 auto;
   }
 
   .main {
-    display: none !important;
+    width: 100%;
+    padding: 1rem;
+    order: 2;
+    display: block !important; /* Asegúrate que no se oculte */
   }
 
   .decorador,
   .decorador-top-left,
   .decorador-top-right,
   .decorador-bottom-left,
-  .decorador-bottom-right {
-    display: none !important;
-  }
-
+  .decorador-bottom-right,
   .ilustracion-superior {
     display: none !important;
-  }
-}
-
-.responsive-table-container {
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-}
-
-.responsive-table-container table {
-  width: 100%;
-  min-width: 600px; /* Se puede ajustar según el contenido */
-  border-collapse: collapse;
-  font-size: 0.9rem;
-}
-
-.responsive-table-container th,
-.responsive-table-container td {
-  padding: 8px;
-  text-align: center;
-  border: 1px solid #ccc;
-  white-space: nowrap;
-}
-@media (max-width: 480px) {
-  h4 {
-    font-size: 1rem;
-    margin: 0.5rem 0;
-  }
-
-  .responsive-table-container table {
-    font-size: 0.8rem;
-  }
-
-  #resumen_tasa,
-  #resumen_tasa_anual {
-    font-size: 1rem;
   }
 }
