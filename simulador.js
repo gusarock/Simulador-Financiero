@@ -75,45 +75,51 @@ function calcularResumenLinea(valorPeriodo, numPeriodos, periodicidad, lineaCred
         "Plan para Bienestar fuera de Colombia": 0.00,
         "Plan Saber Más": 0.30
     };
-
     const spread = {
-        "Plan flexible": 0.09,
-        "Plan equilibrio": 0.07,
-        "Plan ágil": 0.07,
-        "Plan posgrado para medicina en Colombia": 0.08,
-        "Plan para Educación para el Trabajo": 0.09,
-        "Plan posgrado en el país": 0.08,
-        "Plan posgrado para fuera de Colombia": 0.08,
-        "Plan segundo idioma": 0.08,
-        "Plan para Bienestar fuera de Colombia": 0.08,
-        "Plan Saber Más": 0.08
+    "Plan flexible": 0.09,
+    "Plan equilibrio": 0.07,
+    "Plan ágil": 0.07,
+    "Plan posgrado para medicina en Colombia": 0.08,
+    "Plan para Educación para el Trabajo": 0.09,
+    "Plan posgrado en el país": 0.08,
+    "Plan posgrado para fuera de Colombia": 0.08,
+    "Plan segundo idioma": 0.08,
+    "Plan para Bienestar fuera de Colombia": 0.08,
+    "Plan Saber Más": 0.08
     };
+
     const ipc = 0.052;
-    const spreadValor = spread[lineaCredito] || 0.08; // Diccionario según línea
+
+    // 👉 Normalización para evitar errores de mayúsculas
+    const lineaNormalizada = Object.keys(spread).find(key => key.toLowerCase() === lineaCredito.toLowerCase());
+    const spreadValor = lineaNormalizada ? spread[lineaNormalizada] : 0.08;
 
     // 🟦 Cálculo de tasas
     const tasaEA = (1 + ipc) * (1 + spreadValor) - 1;
-
-    // Cálculo de tasa nominal anual mes vencido (NAMV)
     const tasaNAMV = tasaEA * 100;
-
-    // Tasa nominal mensual = NAMV / 12
-    const tasaNM = tasaNAMV / 12;
+    const tasaMV = tasaNAMV / 12;
 
     // 🟦 Mostrar tasas en el resumen
     document.getElementById("resumen_tasa_anual").innerText = `${tasaNAMV.toFixed(2)}% NAMV`;
-    document.getElementById("resumen_tasa").innerText = `${tasaNM_visible.toFixed(2)}% NM`;
+    document.getElementById("resumen_tasa").innerText = `${tasaMV.toFixed(2)}% MV`;
 
     const mesesPorPeriodo = mapPeriodicidadMeses[periodicidad] || 6;
     const totalMeses = numPeriodos * mesesPorPeriodo;
     const porcentaje = condicionesLineaCredito[lineaCredito] || 0;
     const capital = valorPeriodo * porcentaje;
 
-    const cuota = capital > 0 ? Math.round((capital * tasaNM_decimal) / (1 - Math.pow(1 + tasaNM_decimal, -mesesPorPeriodo))) : 0;
+    const cuota = capital > 0 ? Math.round((capital * tasaMV_decimal) / (1 - Math.pow(1 + tasaMV_decimal, -mesesPorPeriodo))) : 0;
     const AFPC = Math.round(valorPeriodo * 0.02);
 
+    // Descripción de la línea
+    const descripcionPlan = {
+        "Plan flexible": "Pagas el 30% mientras estudias y el 70% luego de graduarte. Lo pagas en 1,5 veces el tiempo de estudios.",
+        "Plan equilibrio": "Pagas el 60% mientras estudias y el 40% luego de graduarte. Lo pagas en 1,5 veces el tiempo de estudios.",
+        "Plan ágil": "Financia el 100% de la matrícula y págalo en cuotas mensuales durante el semestre.",
+        };
+
     // Mostrar en el resumen
-    document.getElementById("resumen_tasa").innerText = `${tasaNM.toFixed(2)}% NM`;
+    document.getElementById("resumen_tasa").innerText = `${tasaMV.toFixed(2)}% MV`;
 
     // Determinar cuotas de amortización
     let cuotasAmortizacion = 0;
@@ -161,7 +167,7 @@ function simularEtapaEstudios() {
 
     const subtitulosLineaCredito = {
         "Plan flexible": "Mediano plazo Tú eliges 30%",
-        "Plan Equilibrio": "Mediano plazo Tú eliges 60%",
+        "Plan equilibrio": "Mediano plazo Tú eliges 60%",
         "Plan ágil": "Corto plazo Tú eliges 100%",
         "Plan posgrado para medicina en Colombia": "Posgrado País Medicina",
         "Plan posgrado en el país": "Posgrado País",
@@ -174,7 +180,7 @@ function simularEtapaEstudios() {
     const ipc = 0.052;
     const spread = {
         "Plan flexible": 0.09,
-        "Plan Equilibrio": 0.07,
+        "Plan equilibrio": 0.07,
         "Plan ágil": 0.07,
         "Plan posgrado para medicina en Colombia": 0.08,
         "Plan para Educación para el Trabajo": 0.09,
@@ -186,10 +192,10 @@ function simularEtapaEstudios() {
     }[lineaSeleccionada] || 0.08;
 
     const tasaEA = (1 + ipc) * (1 + spread) - 1;
-    const tasaNM = Math.pow(1 + tasaEA, 1 / 12) - 1;
+    const tasaMV = Math.pow(1 + tasaEA, 1 / 12) - 1;
     const incremento = (1 + ipc) * (1 + 0.02) - 1;
-    document.getElementById("resumen_tasa").innerText = `${(tasaNM * 100).toFixed(2)}% NM`;
-    document.getElementById("resumen_tasa_anual").innerText = `${(tasaNM * 100 * 12).toFixed(2)}% NAMV`;
+    document.getElementById("resumen_tasa").innerText = `${(tasaMV * 100).toFixed(2)}% MV`;
+    document.getElementById("resumen_tasa_anual").innerText = `${(tasaMV * 100 * 12).toFixed(2)}% NAMV`;
 
     let tablaHTML = `
         <h4 style="margin-bottom: 0.3rem; color: #003399; font-size: 1.2rem; font-weight: 600;">
@@ -202,7 +208,7 @@ function simularEtapaEstudios() {
             <tr>
                 <th>Mes</th>
                 <th>Desembolso</th>
-                <th>Seguro AFPC</th>
+                <th>AFPC</th>
                 <th>Intereses</th>
                 <th>Abono a capital</th>
                 <th>Cuota mensual</th>
@@ -221,7 +227,7 @@ function simularEtapaEstudios() {
         const esMesDesembolso = i % mesesPorPeriodo === 0 && periodoIndex < numPeriodos;
 
         let desembolso = 0;
-        let seguroAFPC = 0;
+        let AFPC = 0;
 
         if (esMesDesembolso) {
             const factorIncremento = Math.pow(1 + incremento, Math.floor(i / 12));
@@ -229,13 +235,13 @@ function simularEtapaEstudios() {
             desembolso = valorAjustado;
             resumenMonto += desembolso;
 
-            seguroAFPC = Math.round(desembolso * 0.02);
+            AFPC = Math.round(desembolso * 0.02);
 
             const capitalEstudios = Math.round(valorAjustado * porcentajeAmortizar);
             const n = mesesPorPeriodo;
 
             const cuota = capitalEstudios > 0
-                ? Math.round((capitalEstudios * tasaNM) / (1 - Math.pow(1 + tasaNM, -n)))
+                ? Math.round((capitalEstudios * tasaMV) / (1 - Math.pow(1 + tasaMV, -n)))
                 : 0;
 
             amortizaciones.push({
@@ -252,7 +258,7 @@ function simularEtapaEstudios() {
 
         amortizaciones.forEach(amort => {
             if (amort.saldo > 0 && amort.mesesRestantes > 0) {
-                const interes = Math.round(amort.saldo * tasaNM);
+                const interes = Math.round(amort.saldo * tasaMV);
                 let abono, cuotaFinal;
 
                 if (amort.mesesRestantes === 1) {
@@ -274,13 +280,13 @@ function simularEtapaEstudios() {
             }
         });
 
-        const cuotaTotal = cuotaMes + seguroAFPC;
+        const cuotaTotal = cuotaMes + AFPC;
 
         tablaHTML += `
             <tr>
                 <td>${mesActual}</td>
                 <td>$${formatearNumero(desembolso)}</td>
-                <td>$${formatearNumero(seguroAFPC)}</td>
+                <td>$${formatearNumero(AFPC)}</td>
                 <td>$${formatearNumero(interesesMes)}</td>
                 <td>$${formatearNumero(abonoMes)}</td>
                 <td>$${formatearNumero(cuotaTotal)}</td>
@@ -295,7 +301,7 @@ function simularEtapaEstudios() {
     document.getElementById("tablaAmortizacion").innerHTML = tablaHTML;
     document.getElementById("resumen_monto").innerText = "$" + formatearNumero(resumenMonto);
     document.getElementById("resumen_cuota").innerText = "Según fórmula PAGO";
-    document.getElementById("resumen_tasa").innerText = `${(tasaNM * 100).toFixed(2)}% NM`;
+    document.getElementById("resumen_tasa").innerText = `${(tasaMV * 100).toFixed(2)}% MV`;
 }
 
 // ==========================================================
@@ -328,7 +334,7 @@ function simularPostEstudios() {
     }[lineaSeleccionada] || 0.08;
 
     const tasaEA = (1 + ipc) * (1 + spread) - 1;
-    const tasaNM = Math.pow(1 + tasaEA, 1 / 12) - 1;
+    const tasaMV = Math.pow(1 + tasaEA, 1 / 12) - 1;
 
     // 🟩 Capital no amortizado en estudios
     const capitalRestante = Math.round(valorPeriodo * numPeriodos * (1 - porcentajeAmortizar));
@@ -358,7 +364,7 @@ function simularPostEstudios() {
 
     // 🟦 Periodo de gracia: acumular intereses, cuota = 0
     for (let i = 0; i < periodoGraciaMeses; i++) {
-        const interes = Math.round(saldo * tasaNM);
+        const interes = Math.round(saldo * tasaMV);
         interesesAcumulados += interes;
         saldo += interes;
 
@@ -396,11 +402,11 @@ function simularPostEstudios() {
     }
 
     // 🟦 Calcular cuota mensual con fórmula PAGO
-    const cuota = Math.round((saldo * tasaNM) / (1 - Math.pow(1 + tasaNM, -plazoMeses)));
+    const cuota = Math.round((saldo * tasaMV) / (1 - Math.pow(1 + tasaMV, -plazoMeses)));
 
     // 🟦 Simulación mensual
     for (let i = 0; i < plazoMeses; i++) {
-    let interes = Math.round(saldo * tasaNM);
+    let interes = Math.round(saldo * tasaMV);
     let abono;
     let cuotaFinal;
 

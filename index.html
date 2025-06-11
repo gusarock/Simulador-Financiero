@@ -85,13 +85,21 @@
     
   </div>
   
- <div class="main">
+  <div class="main">
+    <!--
     <div class="ilustracion-superior">
       <img src="ilustracion_1.png" alt="Ilustración comparador ICETEX" />
     </div>
+    -->
     <div class="card-grid" id="resumenComparador"></div>
+    <div class="nota-informativa">
+    <p>
+      <strong>Ten en cuenta:</strong> Estos valores son informativos y pueden variar de acuerdo a las condiciones de la financiación, incremento anual de la matrícula, el Índice de Precios al Consumidor (IPC) y/o cambios posteriores que se puedan presentar en tu solicitud.
+    </p>
+    <p>
+      Además, no comprometen al ICETEX a mantener las condiciones del plazo, tasa o monto de la deuda, entre otras. Tampoco implica la obligación para la entidad de otorgar efectivamente la operación simulada. Los valores reales al momento de otorgar el crédito podrán ser modificados de conformidad con la variación de las tasas de interés.
+    </p>
   </div>
-
 
   <script>
     const lineasPorNivel = {
@@ -113,7 +121,7 @@
       "Plan para Educación para el Trabajo": 0.3,
       "Plan posgrado en el país": 0.4,
       "Plan posgrado para fuera de Colombia": 0,
-      "Plan segundo idioma": 0,
+      "Plan segundo idioma": 30,
       "Plan para Bienestar fuera de Colombia": 0,
       "Plan saber más": 0,
       "Plan Saber Más": 0.3
@@ -169,18 +177,36 @@ function mostrarComparacion() {
 
   const totalMeses = periodos * mesesPorPeriodo;
 
+  const subtitulosLineaCredito = {
+    "Plan flexible": "Mediano plazo Tú eliges 30%",
+    "Plan equilibrio": "Mediano plazo Tú eliges 60%",
+    "Plan ágil": "Corto plazo Tú eliges 100%",
+    "Plan posgrado para medicina en Colombia": "Posgrado País Medicina",
+    "Plan posgrado en el país": "Posgrado País",
+    "Plan para Educación para el Trabajo": "Educación para el trabajo y el desarrollo humano",
+    "Plan posgrado para fuera de Colombia": "Posgrado Exterior Largo Plazo USD 25.000",
+    "Plan segundo idioma": "Capacitación de Idiomas en el país",
+    "Plan Saber Más": "Diplomados o certificaciones en el país"
+  };
+
+  const descripcionPlan = {
+    "Plan flexible": "Pagas el 30% mientras estudias y el 70% luego de graduarte. Lo pagas en 1,5 veces el tiempo de estudios.",
+    "Plan equilibrio": "Pagas el 60% mientras estudias y el 40% luego de graduarte. Lo pagas en 1,5 veces el tiempo de estudios.",
+    "Plan ágil": "Financia el 100% de la matrícula y págalo mes a mes durante el semestre."
+  };
+
   lineas.forEach(linea => {
     const porcentaje = condicionesLineaCredito[linea] || 0;
     const spread = spreadPorLinea[linea] || 0.08;
     const tasaEA = (1 + ipc) * (1 + spread) - 1;
-    const tasaNM = Math.pow(1 + tasaEA, 1 / 12) - 1;
+    const tasaMV = Math.pow(1 + tasaEA, 1 / 12) - 1;
 
     const valorAjustado = Math.round(valor * Math.pow(1 + incremento, 0));
     const capitalEstudios = Math.round(valorAjustado * porcentaje);
     const cuotasEstudios = totalMeses;
 
     const cuota = capitalEstudios > 0
-      ? Math.round((capitalEstudios * tasaNM) / (1 - Math.pow(1 + tasaNM, -mesesPorPeriodo)))
+      ? Math.round((capitalEstudios * tasaMV) / (1 - Math.pow(1 + tasaMV, -mesesPorPeriodo)))
       : 0;
 
     const afpc = Math.round(valorAjustado * 0.02);
@@ -200,7 +226,7 @@ function mostrarComparacion() {
       cuotasAmortizacion = totalMeses * 2;
     } else if (linea === "Plan para Educación para el Trabajo") {
       cuotasAmortizacion = Math.round(totalMeses * 1.5);
-    } else if (linea === "Plan segundo idioma","Plan Saber Más") {
+    } else if (linea === "Plan segundo idioma" || linea === "Plan Saber Más") {
       cuotasAmortizacion = 24;
     } else if (
       ["Plan posgrado para fuera de Colombia", "Plan para Bienestar fuera de Colombia"].includes(linea)
@@ -210,32 +236,41 @@ function mostrarComparacion() {
 
     const totalCuotas = cuotasEstudios + cuotasAmortizacion;
 
-    const card = document.createElement("div");
-card.className = "card";
-card.innerHTML = `
-  <h3>${linea}</h3>
-  <p title="Valor aproximado que pagarás cada mes durante tus estudios.">
-    <strong>Cuota mensual en estudios:</strong> ${cuota.toLocaleString('es-CO', { style: 'currency', currency: 'COP', minimumFractionDigits: 0 })}
-  </p>
-  <p title="(Aporte al Fondo Pasivo Contingente) Es un aporte obligatorio que te ayuda a cubrir el crédito si en el futuro tienes dificultades para pagarlo.">
-    <strong>AFPC:</strong> ${afpc.toLocaleString('es-CO', { style: 'currency', currency: 'COP', minimumFractionDigits: 0 })}
-  </p>
-  <p title="Tasa de interés nominal mensual aplicada a tu financiación.">
-    <strong>Tasa de interés:</strong> ${(tasaNM * 100).toFixed(2)}% NM
-  </p>
-  <p title="Número de cuotas mensuales que pagarás durante el periodo de estudios.">
-    <strong>Cuotas en estudios:</strong> ${cuotasEstudios}
-  </p>
-  <p title="Número de cuotas mensuales que pagarás después de terminar tus estudios.">
-    <strong>Cuotas después de estudiar:</strong> ${cuotasAmortizacion}
-  </p>
-  ${mensajeGracia}
-  <button class="btn-detalle" onclick="verPlanDePagos('${linea}', ${valor}, ${periodos}, '${periodicidad}')" title="Haz clic para ver el detalle del plan de pagos">Ver plan de pagos</button>
-`;
-contenedor.appendChild(card);
+    const keySubtitulo = Object.keys(subtitulosLineaCredito).find(key => key.toLowerCase() === linea.toLowerCase());
+    const subtitulo = keySubtitulo ? subtitulosLineaCredito[keySubtitulo] : "";
 
+    const keyDescripcion = Object.keys(descripcionPlan).find(key => key.toLowerCase() === linea.toLowerCase());
+    const descripcion = keyDescripcion ? descripcionPlan[keyDescripcion] : "";
+
+    const card = document.createElement("div");
+    card.className = "card";
+    card.innerHTML = `
+      <h3>${linea}</h3>
+      <p class="subtitulo-linea">${subtitulo}</p>
+      <p class="descripcion-plan">${descripcion}</p>
+
+      <p title="Valor aproximado que pagarás cada mes durante tus estudios.">
+        <strong>Cuota mensual en estudios:</strong> ${cuota.toLocaleString('es-CO', { style: 'currency', currency: 'COP', minimumFractionDigits: 0 })}
+      </p>
+      <p title="(Aporte al Fondo Pasivo Contingente) Es un aporte obligatorio que te ayuda a cubrir el crédito si en el futuro tienes dificultades para pagarlo.">
+        <strong>AFPC:</strong> ${afpc.toLocaleString('es-CO', { style: 'currency', currency: 'COP', minimumFractionDigits: 0 })}
+      </p>
+      <p title="Tasa efectiva anual compuesta por IPC + spread.">
+        <strong>Tasa de interés IPC + ${(spread * 100).toFixed(0)}%:</strong> ${(tasaMV * 100).toFixed(2)}% MV
+      </p>
+      <p title="Número de cuotas mensuales que pagarás durante el periodo de estudios.">
+        <strong>Cuotas en estudios:</strong> ${cuotasEstudios}
+      </p>
+      <p title="Número de cuotas mensuales que pagarás después de terminar tus estudios.">
+        <strong>Cuotas después de estudiar:</strong> ${cuotasAmortizacion}
+      </p>
+      ${mensajeGracia}
+      <button class="btn-detalle" onclick="verPlanDePagos('${linea}', ${valor}, ${periodos}, '${periodicidad}')" title="Haz clic para ver el detalle del plan de pagos">Ver plan de pagos</button>
+    `;
+    contenedor.appendChild(card);
   });
 }
+
 
 // ✅ NUEVA FUNCIÓN PARA REDIRIGIR Y PASAR DATOS
 function verPlanDePagos(linea, valor, periodos, periodicidad) {

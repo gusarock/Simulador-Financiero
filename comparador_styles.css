@@ -6,9 +6,9 @@
 
 body {
   display: flex;
-  min-height: 100dvh; /* Soporte para navegadores modernos */
   font-family: 'Montserrat', sans-serif;
-  
+  flex-direction: row;
+  min-height: 100vh;
 }
 
 /* Panel izquierdo */
@@ -104,6 +104,23 @@ button[type="submit"]:hover {
   max-width: 360px;
   height: auto;
 }
+/* Nota aclaratoria */
+.nota-informativa {
+  max-width: 900px;
+  margin: 2rem auto 4rem;
+  padding: 1.2rem;
+  font-size: 0.85rem;
+  text-align: justify;
+  color: #4b5563;
+  border-left: 4px solid #003399;
+  border-radius: 8px;
+  line-height: 1.5;
+  background-color: transparent; /* fondo transparente */
+}
+.nota-informativa strong {
+  color: #003399;
+}
+
 /* Tarjetas */
 .card-grid {
   display: grid;
@@ -111,6 +128,14 @@ button[type="submit"]:hover {
   gap: 1.5rem;
   position: relative; /* Para controlar jerarquía */
   z-index: 10; /* Por encima de decoraciones */
+}
+.descripcion-plan {
+  font-size: 0.88rem;
+  color: #4b5563;
+  font-weight: 400;
+  margin-top: -0.3rem;
+  margin-bottom: 1rem;
+  line-height: 1.4;
 }
 
 .card {
@@ -147,6 +172,18 @@ button[type="submit"]:hover {
   width: fit-content;
 }
 
+/* 👇 Subtítulo justo debajo del título de la tarjeta */
+.subtitulo-linea {
+  font-size: 0.88rem;
+  color: #6b7280; /* Gris suave */
+  font-weight: 500;
+  margin-top: -0.8rem;
+  margin-bottom: 1rem;
+  font-style: italic;
+  line-height: 1.2;
+}
+
+
 .card p {
   font-size: 0.95rem;
   margin: 0.5rem 0;
@@ -172,7 +209,6 @@ button[type="submit"]:hover {
   align-items: center;
   justify-content: center;
   gap: 0.4rem;
-  
 }
 
 .btn-detalle::after {
@@ -183,6 +219,7 @@ button[type="submit"]:hover {
 .btn-detalle:hover {
   background-color: #009ddc;
 }
+
 /* Decoraciones de esquina */
 .decorador {
   position: absolute;
@@ -270,28 +307,31 @@ button[type="submit"]:hover {
     display: block; /* Elimina el flex en móviles */
   }
 
+
   body {
-    background-color: #003399; /* Asegura fondo completo como el sidebar */
+    display: flex;
+    flex-direction: column;
+    background-color: #f5f5f5; /* O el fondo que prefieras */
   }
 
   .sidebar {
     width: 100%;
-    height: auto; /* Para que crezca con el contenido */
-    padding: 2rem 1rem;
+    padding: 1.5rem 1rem;
     background-color: #003399;
-    overflow-y: auto;
-    z-index: 2;
+    color: white;
+    order: 1;
   }
 
   .formulario {
-    width: 100%;
     max-width: 480px;
     margin: 0 auto;
-    margin-top: 1.5rem;
   }
 
   .main {
-    display: none !important;
+    width: 100%;
+    padding: 1rem;
+    order: 2;
+    display: block !important; /* Asegúrate que no se oculte */
   }
 
   .decorador,
