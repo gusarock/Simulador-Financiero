@@ -102,6 +102,7 @@
   </div>
 
   <script>
+    
     const lineasPorNivel = {
       "Pregrado": ["Plan flexible", "Plan equilibrio", "Plan ágil"],
       "Posgrado país": ["Plan posgrado en el país"],
@@ -299,7 +300,58 @@ function formatearCOPInput(input) {
     minimumFractionDigits: 0
   });
 }
+ // Valor de 1 salario mínimo mensual legal vigente (2025)
+  const SALARIO_MINIMO = 1423500; // Ajusta este valor si cambia
 
+  document.getElementById("nivelFormacion").addEventListener("change", aplicarRestricciones);
+  document.getElementById("valorPeriodo").addEventListener("input", aplicarRestricciones);
+  document.getElementById("numPeriodos").addEventListener("change", aplicarRestricciones);
+
+  function aplicarRestricciones() {
+    const nivel = document.getElementById("nivelFormacion").value;
+    const numPeriodos = document.getElementById("numPeriodos");
+    const valorInput = document.getElementById("valorPeriodo");
+    const periodicidad = document.getElementById("id_del_select_de_periodicidad");
+
+    const valorRaw = valorInput.value.replace(/[^\d]/g, '');
+    const valor = parseInt(valorRaw) || 0;
+
+    // Restablecer todas las opciones de periodos
+    [...numPeriodos.options].forEach(op => {
+      op.hidden = false;
+    });
+
+    // Restricción 1: Posgrados solo hasta 8 periodos
+    if (nivel.includes("Posgrado")) {
+      [...numPeriodos.options].forEach(op => {
+        if (parseInt(op.value) > 8) {
+          op.hidden = true;
+        }
+      });
+    }
+
+    // Restricción 2: ETDH solo hasta 8 periodos y máximo $5 millones
+    if (nivel === "ETDH") {
+      [...numPeriodos.options].forEach(op => {
+        if (parseInt(op.value) > 8) {
+          op.hidden = true;
+        }
+      });
+
+      if (valor > 7117500) {
+        alert("Para la línea ETDH el valor del periodo académico no puede ser superior a $7.117.500.");
+        valorInput.value = "";
+      }
+    }
+
+    // Restricción 3: Sostenimiento máximo 5 SMMLV
+    if (nivel === "Sostenimiento") {
+      if (valor > (5 * SALARIO_MINIMO)) {
+        alert("Para la línea Sostenimiento el valor del periodo no puede superar 5 salarios mínimos. Sujeto a reglamento de crédito");
+        valorInput.value = "";
+      }
+    }
+  }
   </script>
 </body>
 </html>
