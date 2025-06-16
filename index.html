@@ -122,7 +122,7 @@
       "Plan para Educación para el Trabajo": 0.3,
       "Plan posgrado en el país": 0.4,
       "Plan posgrado para fuera de Colombia": 0,
-      "Plan segundo idioma": 30,
+      "Plan segundo idioma": 0.3,
       "Plan para Bienestar fuera de Colombia": 0,
       "Plan saber más": 0,
       "Plan Saber Más": 0.3
@@ -344,13 +344,7 @@ function formatearCOPInput(input) {
       }
     }
 
-    // Restricción 3: Sostenimiento máximo 5 SMMLV
-    if (nivel === "Sostenimiento") {
-      if (valor > (5 * SALARIO_MINIMO)) {
-        alert("Para la línea Sostenimiento el valor del periodo no puede superar 5 salarios mínimos. Sujeto a reglamento de crédito");
-        valorInput.value = "";
-      }
-    }
+   
   }
   </script>
 </body>
