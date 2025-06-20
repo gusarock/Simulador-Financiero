@@ -77,7 +77,8 @@
     <option value="anual">Anual</option>
   </select>
 
-  <button type="submit">Ver comparador</button>
+  <button type="submit" title="Haz clic para consultar los planes de crédito disponibles según la información que ingresaste">Ingresa al comparador</button>
+
 </form>
 
 
@@ -96,6 +97,7 @@
     <p>
       <strong>Ten en cuenta:</strong> Estos valores son informativos y pueden variar de acuerdo a las condiciones de la financiación, incremento anual de la matrícula, el Índice de Precios al Consumidor (IPC) y/o cambios posteriores que se puedan presentar en tu solicitud.
     </p>
+    <br></br>
     <p>
       Además, no comprometen al ICETEX a mantener las condiciones del plazo, tasa o monto de la deuda, entre otras. Tampoco implica la obligación para la entidad de otorgar efectivamente la operación simulada. Los valores reales al momento de otorgar el crédito podrán ser modificados de conformidad con la variación de las tasas de interés.
     </p>
@@ -266,7 +268,7 @@ function mostrarComparacion() {
         <strong>Cuotas después de estudiar:</strong> ${cuotasAmortizacion}
       </p>
       ${mensajeGracia}
-      <button class="btn-detalle" onclick="verPlanDePagos('${linea}', ${valor}, ${periodos}, '${periodicidad}')" title="Haz clic para ver el detalle del plan de pagos">Ver plan de pagos</button>
+      <button class="btn-detalle" onclick="verPlanDePagos('${linea}', ${valor}, ${periodos}, '${periodicidad}')" title="Haz clic para ver el detalle del plan de pagos">Ingresa al plan de pagos</button>
     `;
     contenedor.appendChild(card);
   });

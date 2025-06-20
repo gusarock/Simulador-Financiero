@@ -295,6 +295,11 @@ button[type="submit"]:hover {
   opacity: 1;
 }
 
+.boton-activo {
+  background-color: #021738; /* Azul más oscuro o resaltado */
+  color: #fff;
+  border: 2px solid #003399;
+}
 
 /* Responsivo para pantallas menores a 768px */
 @media (max-width: 768px) {

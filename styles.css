@@ -151,20 +151,20 @@ small,
   background-color: #f4f6fc;
   border-radius: 20px;
   padding: 1rem;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 9px rgba(0, 0, 0, 0.05);
   text-align: left;
-  width: 40%;
+  width: 50%;
 }
 
-.resumen-box h3 {
-  font-size: 0.8rem;
+.resumen-box h2 {
+  font-size: 1rem;
   color: #003399;
   margin-bottom: 1rem;
   text-align: center;
 }
 
 .resumen-box p {
-  font-size: 0.7rem;
+  font-size: 1rem;
   margin: 0.2rem 0;
 }
 
@@ -254,6 +254,12 @@ tbody tr:nth-child(even) {
   font-weight: 600;
   color: #003399;
   margin: 1rem 0 0.5rem;
+}
+
+.boton-activo {
+  background-color: #021738; /* Azul más oscuro o resaltado */
+  color: #fff;
+  border: 2px solid #003399;
 }
 
 /* =============================
