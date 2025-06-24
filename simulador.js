@@ -38,6 +38,8 @@ const condicionesLineaCredito = {
     "Plan Saber Más": 0.30
 };
 
+
+
 // Formatea un número como COP
 function formatearNumero(num) {
     return num.toLocaleString('es-CO');
@@ -153,6 +155,7 @@ function calcularResumenLinea(valorPeriodo, numPeriodos, periodicidad, lineaCred
 // 👉 SIMULACIÓN DE AMORTIZACIÓN DURANTE ESTUDIOS
 // ==========================================================
 function simularEtapaEstudios() {
+    
     const valorPeriodo = obtenerValorNumerico("valor_periodo");
     const numPeriodos = parseInt(document.getElementById("num_periodos").value);
     const periodicidad = document.getElementById("periodicidad").value;
@@ -196,6 +199,8 @@ function simularEtapaEstudios() {
     const incremento = (1 + ipc) * (1 + 0.02) - 1;
     document.getElementById("resumen_tasa").innerText = `${(tasaMV * 100).toFixed(2)}% MV`;
     document.getElementById("resumen_tasa_anual").innerText = `${(tasaMV * 100 * 12).toFixed(2)}% NAMV`;
+    document.getElementById("btnEstudios").classList.add("boton-activo");
+    document.getElementById("btnPostEstudios").classList.remove("boton-activo");
 
     let tablaHTML = `
         <h4 style="margin-bottom: 0.3rem; color: #003399; font-size: 1.2rem; font-weight: 600;">
@@ -302,6 +307,8 @@ function simularEtapaEstudios() {
     document.getElementById("resumen_monto").innerText = "$" + formatearNumero(resumenMonto);
     document.getElementById("resumen_cuota").innerText = "Según fórmula PAGO";
     document.getElementById("resumen_tasa").innerText = `${(tasaMV * 100).toFixed(2)}% MV`;
+    
+    
 }
 
 // ==========================================================
@@ -435,4 +442,8 @@ function simularPostEstudios() {
 
     tablaHTML += "</table>";
     document.getElementById("tablaAmortizacion").innerHTML = tablaHTML;
+    document.getElementById("btnPostEstudios").classList.add("boton-activo");
+    document.getElementById("btnEstudios").classList.remove("boton-activo");
 }
+
+
