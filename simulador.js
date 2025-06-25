@@ -310,12 +310,10 @@ function simularEtapaEstudios() {
     
     
 }
-
 // ==========================================================
 // 👉 SIMULACIÓN DE LA ETAPA DE AMORTIZACIÓN POST ESTUDIOS
 // ==========================================================
 function simularPostEstudios() {
-    // Entradas requeridas (usar los mismos campos del HTML)
     const valorPeriodo = obtenerValorNumerico("valor_periodo");
     const numPeriodos = parseInt(document.getElementById("num_periodos").value);
     const periodicidad = document.getElementById("periodicidad").value;
@@ -325,7 +323,6 @@ function simularPostEstudios() {
     const mesesPorPeriodo = mapPeriodicidadMeses[periodicidad] || 6;
     const totalMesesEstudios = numPeriodos * mesesPorPeriodo;
 
-    // 🧮 Tasa de interés
     const ipc = 0.052;
     const spread = {
         "Plan flexible": 0.09,
@@ -341,23 +338,39 @@ function simularPostEstudios() {
     }[lineaSeleccionada] || 0.08;
 
     const tasaEA = (1 + ipc) * (1 + spread) - 1;
-    const tasaMV = Math.pow(1 + tasaEA, 1 / 12) - 1;
+    const tasaMensual = Math.pow(1 + tasaEA, 1 / 12) - 1;
 
-    // 🟩 Capital no amortizado en estudios
-    const capitalRestante = Math.round(valorPeriodo * numPeriodos * (1 - porcentajeAmortizar));
+    // Capital pendiente a amortizar luego de estudiar, capitalizado mes a mes usando tasa nominal
+    let capitalRestante = 0;
+    for (let i = 0; i < numPeriodos; i++) {
+        const esPrimerPeriodoDelAnio = (i % (12 / mesesPorPeriodo) === 0);
+        const anioIndex = Math.floor(i * mesesPorPeriodo / 12);
 
-    // 🟦 Verificamos si aplica periodo de gracia
+        const factorIncremento = esPrimerPeriodoDelAnio
+            ? Math.pow((1 + ipc) * (1 + 0.02), anioIndex)
+            : Math.pow((1 + ipc) * (1 + 0.02), anioIndex);
+
+        const valorAjustado = valorPeriodo * factorIncremento;
+        const porcentajePendiente = 1 - porcentajeAmortizar;
+
+        const mesesCapitalizar = totalMesesEstudios - i * mesesPorPeriodo;
+        const valorConIntereses = valorAjustado * porcentajePendiente * (1 + tasaMensual * mesesCapitalizar);
+
+        capitalRestante += valorConIntereses;
+    }
+    capitalRestante = Math.round(capitalRestante);
+
     let periodoGraciaMeses = 0;
     if (lineaSeleccionada === "Plan flexible") {
         periodoGraciaMeses = 6;
     }
 
-    // 🟦 Tabla de amortización
     let tablaHTML = `
         <h4>Tabla de amortización después de estudios</h4>
         <table>
             <tr>
                 <th>Mes</th>
+                <th>Saldo inicial</th>
                 <th>Intereses</th>
                 <th>Abono a capital</th>
                 <th>Cuota</th>
@@ -367,17 +380,16 @@ function simularPostEstudios() {
 
     let mes = 1;
     let saldo = capitalRestante;
-    let interesesAcumulados = 0;
 
-    // 🟦 Periodo de gracia: acumular intereses, cuota = 0
     for (let i = 0; i < periodoGraciaMeses; i++) {
-        const interes = Math.round(saldo * tasaMV);
-        interesesAcumulados += interes;
+        const saldoInicial = saldo;
+        const interes = Math.round(saldo * tasaMensual);
         saldo += interes;
 
         tablaHTML += `
             <tr>
                 <td>${mes}</td>
+                <td>$${formatearNumero(saldoInicial)}</td>
                 <td>$${formatearNumero(interes)}</td>
                 <td>$0</td>
                 <td>$0</td>
@@ -387,11 +399,10 @@ function simularPostEstudios() {
         mes++;
     }
 
-    // 🟦 Determinar el plazo de amortización según línea
     const plazoMeses = {
         "Plan flexible": Math.round(totalMesesEstudios * 1.5),
         "Plan equilibrio": totalMesesEstudios,
-        "Plan ágil": 0, // no aplica
+        "Plan ágil": 0,
         "Plan posgrado para medicina en Colombia": totalMesesEstudios * 2,
         "Plan para Educación para el Trabajo": Math.round(totalMesesEstudios * 1.5),
         "Plan posgrado en el país": totalMesesEstudios * 2,
@@ -401,49 +412,46 @@ function simularPostEstudios() {
         "Plan Saber Más": 24,
     }[lineaSeleccionada] || 0;
 
-    // Si no aplica amortización posterior
     if (plazoMeses === 0) {
-        tablaHTML += `<tr><td colspan="5">Esta línea no tiene fase de amortización posterior.</td></tr></table>`;
+        tablaHTML += `<tr><td colspan="6">Esta línea no tiene fase de amortización posterior.</td></tr></table>`;
         document.getElementById("tablaAmortizacion").innerHTML = tablaHTML;
         return;
     }
 
-    // 🟦 Calcular cuota mensual con fórmula PAGO
-    const cuota = Math.round((saldo * tasaMV) / (1 - Math.pow(1 + tasaMV, -plazoMeses)));
+    const cuota = Math.round((saldo * tasaMensual) / (1 - Math.pow(1 + tasaMensual, -plazoMeses)));
 
-    // 🟦 Simulación mensual
     for (let i = 0; i < plazoMeses; i++) {
-    let interes = Math.round(saldo * tasaMV);
-    let abono;
-    let cuotaFinal;
+        const saldoInicial = saldo;
+        const interes = Math.round(saldo * tasaMensual);
+        let abono;
+        let cuotaFinal;
 
-    // 👉 ajustamos para que el saldo final sea cero y no tenga decimales
-    if (i === plazoMeses - 1) {
-        abono = saldo;
-        cuotaFinal = interes + abono;
-        saldo = 0;
-    } else {
-        abono = Math.max(0, cuota - interes);
-        cuotaFinal = cuota;
-        saldo = Math.max(0, saldo - abono);
+        if (i === plazoMeses - 1) {
+            abono = saldo;
+            cuotaFinal = interes + abono;
+            saldo = 0;
+        } else {
+            abono = Math.max(0, cuota - interes);
+            cuotaFinal = cuota;
+            saldo = Math.max(0, saldo - abono);
+        }
+
+        tablaHTML += `
+            <tr>
+                <td>${mes}</td>
+                <td>$${formatearNumero(saldoInicial)}</td>
+                <td>$${formatearNumero(interes)}</td>
+                <td>$${formatearNumero(abono)}</td>
+                <td>$${formatearNumero(cuotaFinal)}</td>
+                <td>$${formatearNumero(saldo)}</td>
+            </tr>
+        `;
+        mes++;
     }
-
-    tablaHTML += `
-        <tr>
-            <td>${mes}</td>
-            <td>$${formatearNumero(interes)}</td>
-            <td>$${formatearNumero(abono)}</td>
-            <td>$${formatearNumero(cuotaFinal)}</td>
-            <td>$${formatearNumero(saldo)}</td>
-        </tr>
-    `;
-    mes++;
-}
 
     tablaHTML += "</table>";
     document.getElementById("tablaAmortizacion").innerHTML = tablaHTML;
     document.getElementById("btnPostEstudios").classList.add("boton-activo");
     document.getElementById("btnEstudios").classList.remove("boton-activo");
 }
-
 
