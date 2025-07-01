@@ -310,9 +310,6 @@ function simularEtapaEstudios() {
     
     
 }
-// ==========================================================
-// 👉 SIMULACIÓN DE LA ETAPA DE AMORTIZACIÓN POST ESTUDIOS
-// ==========================================================
 function simularPostEstudios() {
     const valorPeriodo = obtenerValorNumerico("valor_periodo");
     const numPeriodos = parseInt(document.getElementById("num_periodos").value);
@@ -320,6 +317,7 @@ function simularPostEstudios() {
     const lineaSeleccionada = document.getElementById("linea_credito").value;
 
     const porcentajeAmortizar = condicionesLineaCredito[lineaSeleccionada];
+    const porcentajePendiente = 1 - porcentajeAmortizar;
     const mesesPorPeriodo = mapPeriodicidadMeses[periodicidad] || 6;
     const totalMesesEstudios = numPeriodos * mesesPorPeriodo;
 
@@ -340,30 +338,30 @@ function simularPostEstudios() {
     const tasaEA = (1 + ipc) * (1 + spread) - 1;
     const tasaMensual = Math.pow(1 + tasaEA, 1 / 12) - 1;
 
-    // Capital pendiente a amortizar luego de estudiar, capitalizado mes a mes usando tasa nominal
-    let capitalRestante = 0;
+    // Paso 1: Calcular capital diferido y acumular intereses durante estudios
+    let capitalDiferido = 0;
+    let interesesEstudios = 0;
+
     for (let i = 0; i < numPeriodos; i++) {
-        const esPrimerPeriodoDelAnio = (i % (12 / mesesPorPeriodo) === 0);
         const anioIndex = Math.floor(i * mesesPorPeriodo / 12);
-
-        const factorIncremento = esPrimerPeriodoDelAnio
-            ? Math.pow((1 + ipc) * (1 + 0.02), anioIndex)
-            : Math.pow((1 + ipc) * (1 + 0.02), anioIndex);
-
+        const factorIncremento = Math.pow((1 + ipc) * (1 + 0.02), anioIndex);
         const valorAjustado = valorPeriodo * factorIncremento;
-        const porcentajePendiente = 1 - porcentajeAmortizar;
+        const capitalPendiente = valorAjustado * porcentajePendiente;
 
-        const mesesCapitalizar = totalMesesEstudios - i * mesesPorPeriodo;
-        const valorConIntereses = valorAjustado * porcentajePendiente * (1 + tasaMensual * mesesCapitalizar);
+        capitalDiferido += capitalPendiente;
 
-        capitalRestante += valorConIntereses;
+        for (let m = 0; m < mesesPorPeriodo; m++) {
+            interesesEstudios += capitalPendiente * tasaMensual;
+        }
     }
-    capitalRestante = Math.round(capitalRestante);
 
-    let periodoGraciaMeses = 0;
-    if (lineaSeleccionada === "Plan flexible") {
-        periodoGraciaMeses = 6;
-    }
+    capitalDiferido = Math.round(capitalDiferido);
+    interesesEstudios = Math.round(interesesEstudios);
+
+    // Paso 2: Periodo de gracia (intereses sobre capital diferido)
+    let periodoGraciaMeses = lineaSeleccionada === "Plan flexible" ? 6 : 0;
+    let interesesGracia = 0;
+    let mes = 1;
 
     let tablaHTML = `
         <h4>Tabla de amortización después de estudios</h4>
@@ -378,26 +376,38 @@ function simularPostEstudios() {
             </tr>
     `;
 
-    let mes = 1;
-    let saldo = capitalRestante;
-
     for (let i = 0; i < periodoGraciaMeses; i++) {
-        const saldoInicial = saldo;
-        const interes = Math.round(saldo * tasaMensual);
-        saldo += interes;
+        const interes = Math.round(capitalDiferido * tasaMensual);
+        interesesGracia += interes;
 
         tablaHTML += `
-            <tr>
+            <tr style="background-color: #e6f0ff">
                 <td>${mes}</td>
-                <td>$${formatearNumero(saldoInicial)}</td>
+                <td>$${formatearNumero(capitalDiferido)}</td>
                 <td>$${formatearNumero(interes)}</td>
                 <td>$0</td>
                 <td>$0</td>
-                <td>$${formatearNumero(saldo)}</td>
+                <td>$${formatearNumero(capitalDiferido)}</td>
             </tr>
         `;
         mes++;
     }
+
+    // Paso 3: Fila informativa antes de iniciar amortización
+    const totalIntereses = interesesEstudios + interesesGracia;
+    tablaHTML += `
+        <tr style="background-color: #fff3cd; font-weight: bold;">
+            <td colspan="6">
+                <span style="margin-right: 8px;">⚠️</span>
+                Durante la época estudios y el período de gracia, se acumularon 
+                $${formatearNumero(totalIntereses)} en intereses. 
+                <span title="Este valor se suma al saldo inicial para calcular el nuevo plan de pagos mensuales.">ℹ️</span>
+            </td>
+        </tr>
+    `;
+
+    // Paso 4: Saldo total con intereses acumulados
+    let saldo = capitalDiferido + totalIntereses;
 
     const plazoMeses = {
         "Plan flexible": Math.round(totalMesesEstudios * 1.5),
@@ -454,4 +464,3 @@ function simularPostEstudios() {
     document.getElementById("btnPostEstudios").classList.add("boton-activo");
     document.getElementById("btnEstudios").classList.remove("boton-activo");
 }
-
